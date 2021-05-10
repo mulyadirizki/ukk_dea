@@ -3,26 +3,23 @@
 
   include '../conn/koneksi.php';
 
-  if (!isset($_SESSION["username"])) {
+  if (!isset($_SESSION["nisn"])) {
     echo "<script>
           document.location.href = '../logout.php';
       </script>";
-  }elseif($_SESSION['data']['level']!=='admin'){
-        echo "<script>alert('Anda Bukan Admin')</script>";
-      echo "<script>location='../logout.php'</script>";
   }
 
-  $usr = $_SESSION['username'];
-  $admin = "SELECT * FROM petugas WHERE username = '$usr' ";
-  $result = mysqli_query($conn, $admin);
-  $data = mysqli_fetch_assoc($result);
+  $usr = $_SESSION['nisn'];
+  $siswa = "SELECT * FROM siswa WHERE nisn = '$usr' ";
+  $result = mysqli_query($conn, $siswa);
+  $dea = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Administrator SPP</title>
+  <title>Pembayaran SPP Online</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -92,7 +89,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                Admin
+                Siswa
               </a>
 
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -133,7 +130,7 @@
           <img src="../assets/dist/img/avatar2.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $data['nama_petugas']; ?></a>
+          <a href="" class="d-block"><?php echo $dea['nama']; ?></a>
         </div>
       </div>
 
@@ -163,58 +160,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="?p=kelas/index" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Data Kelas
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="?p=siswa/index" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Data Siswa
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="?p=petugas/index" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Data Petugas
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="?p=spp/index" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Data SPP
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="?p=pembayaran/index" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Entri Pembayaran
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="?p=history-pembayaran" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 History Pembayaran
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="?p=generate-laporan" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Generate Laporan
               </p>
             </a>
           </li>
@@ -240,65 +189,11 @@
       include_once 'dashboard.php';
     }
 
-    elseif (@$_GET['p'] == "kelas/index" ) {
-      include_once 'kelas/index.php';
-    }elseif (@$_GET['p'] == "kelas/tambah_kelas" ) {
-      include_once 'kelas/tambah_kelas.php';
-    }elseif (@$_GET['p'] == "kelas/edit_kelas" ) {
-      include_once 'kelas/edit_kelas.php';
-    }elseif (@$_GET['p'] == "kelas/hapus_kelas" ) {
-      include_once 'kelas/hapus_kelas.php';
-    }
-
-    elseif (@$_GET['p'] == "siswa/index" ) {
-      include_once 'siswa/index.php';
-    }elseif (@$_GET['p'] == "siswa/home" ) {
-      include_once 'siswa/home.php';
-    }elseif (@$_GET['p'] == "siswa/tambah_siswa" ) {
-      include_once 'siswa/tambah_siswa.php';
-    }elseif (@$_GET['p'] == "siswa/edit_siswa" ) {
-      include_once 'siswa/edit_siswa.php';
-    }elseif (@$_GET['p'] == "siswa/hapus_siswa" ) {
-      include_once 'siswa/hapus_siswa.php';
-    }
-
-    elseif (@$_GET['p'] == "petugas/index" ) {
-      include_once 'petugas/index.php';
-    }elseif (@$_GET['p'] == "petugas/tambah_petugas" ) {
-      include_once 'petugas/tambah_petugas.php';
-    }elseif (@$_GET['p'] == "petugas/edit_petugas" ) {
-      include_once 'petugas/edit_petugas.php';
-    }elseif (@$_GET['p'] == "petugas/hapus_petugas" ) {
-      include_once 'petugas/hapus_petugas.php';
-    }
-
-    elseif (@$_GET['p'] == "spp/index" ) {
-      include_once 'spp/index.php';
-    }elseif (@$_GET['p'] == "spp/tambah_spp" ) {
-      include_once 'spp/tambah_spp.php';
-    }elseif (@$_GET['p'] == "spp/edit_spp" ) {
-      include_once 'spp/edit_spp.php';
-    }elseif (@$_GET['p'] == "spp/hapus_spp" ) {
-      include_once 'spp/hapus_spp.php';
-    }
-
-    elseif (@$_GET['p'] == "pembayaran/index" ) {
-      include_once 'pembayaran/index.php';
-    }elseif (@$_GET['p'] == "pembayaran/tambah_pembayaran" ) {
-      include_once 'pembayaran/tambah_pembayaran.php';
-    }elseif (@$_GET['p'] == "pembayaran/edit_pembayaran" ) {
-      include_once 'pembayaran/edit_pembayaran.php';
-    }elseif (@$_GET['p'] == "pembayaran/hapus_pembayaran" ) {
-      include_once 'pembayaran/hapus_pembayaran.php';
-    }
 
     elseif (@$_GET['p'] == "history-pembayaran" ) {
       include_once 'history.php';
     }
 
-    elseif (@$_GET['p'] == "generate-laporan" ) {
-      include_once 'laporan.php';
-    }
 
   ?>
   <!-- /.content-wrapper -->

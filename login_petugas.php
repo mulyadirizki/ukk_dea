@@ -3,18 +3,33 @@
 
   include 'conn/koneksi.php';
 
+  if (isset($_SESSION['username'])) {
+    if ($_SESSION['data']['level'] == "admin") {
+      header("location: admin");
+    }elseif ($_SESSION['data']['level'] == "petugas") {
+      header("location: petugas");
+    }
+  }
 
   if (isset($_POST["login"])) {
-      $nisn = $_POST['nisn'];
+      $username = $_POST['username'];
+      $password = $_POST['password'];
 
-      $query = mysqli_query($conn, "SELECT * FROM siswa WHERE nisn = '$nisn' ");
+      $query = mysqli_query($conn, "SELECT * FROM petugas WHERE username = '$username' AND password = '$password' ");
       $data = mysqli_fetch_assoc($query);
 
       if (mysqli_num_rows($query) === 1) {
-          $_SESSION["nisn"] = $nisn;
+        if ($data["level"] == "admin") {
+          $_SESSION["username"] = $username;
           $_SESSION["data"] = $data;
 
-          header("location: siswa");
+          header("location: admin");
+        }elseif ($data["level"] == "petugas") {
+          $_SESSION["username"] = $username;
+          $_SESSION["data"] = $data;
+
+          header("location: petugas");
+        } 
       }
 
       $error = true;
@@ -45,16 +60,24 @@
         <a href="" class="h1"><b>Pembayaran</b> SPP</a>
       </div>
       <div class="card-body">
-        <p class="login-box-msg">Silahkan Masukan NISN</p>
+        <p class="login-box-msg">Silahkan Login Untuk Masuk</p>
         <?php if(isset($error)) : ?>
-          <p style="color: red; font-style: italic; text-align: center;">NISN Tidak Terdaftar</p>
+          <p style="color: red; font-style: italic; text-align: center;">Username / Password Salah</p>
         <?php endif; ?>
         <form action="" method="post">
           <div class="input-group mb-3">
-            <input type="number" name="nisn" class="form-control" placeholder="Masukan NISN">
+            <input type="text" name="username" class="form-control" placeholder="Username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Password">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
               </div>
             </div>
           </div>
@@ -63,11 +86,6 @@
               <button type="submit" name="login" class="btn btn-primary btn-block">Masuk</button>
             </div>
             <!-- /.col -->
-            <div class="col-12">
-              <font style="font-family: arrial; text-align: center;">Apakah Anda Seorang Petugas? login 
-                <a href="login_petugas.php">Disini</a>
-              </font>
-            </div>
           </div>
         </form>
 

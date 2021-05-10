@@ -1,4 +1,4 @@
-<?php 
+ <?php 
 	
 	include '../conn/koneksi.php';
 
@@ -11,7 +11,7 @@
 		while($row = mysqli_fetch_assoc($result)){
 			$rows[] = $row;
 		}
-
+     
 		return $rows;
 	}
 
@@ -52,7 +52,7 @@
 	function hapus($id_petugas_dea){
 		global $conn;
 
-		mysqli_query($conn, "DELETE FROM petugas WHERE id_petugas_dea = $id_petugas_dea ");
+		mysqli_query($conn, "DELETE FROM petugas WHERE id_petugas_dea = $id_petugas_dea");
 
 		return mysqli_affected_rows($conn);
 	}
